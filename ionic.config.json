@@ -1,0 +1,7 @@
+{
+  "name": "hotelchain",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
