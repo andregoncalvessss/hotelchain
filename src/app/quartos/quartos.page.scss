@@ -1,0 +1,139 @@
+.quarto-background {
+    --background: #ECECEC; /* Fundo alterado para #ECECEC */
+    font-family: 'Helvetica Neue', sans-serif; /* Fonte Helvetica Neue */
+    font-weight: 300; /* Thin */
+    font-size: 24px; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+    padding: 16px;
+  
+    /* Centraliza todos os elementos no eixo Y */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Garante que ocupa toda a altura da página */
+  }
+  
+  .dropdown-container {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 16px auto; /* Centraliza o elemento */
+    width: 80%; /* Aumenta a largura */
+  }
+  
+  .quarto-info {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 16px auto; /* Centraliza o elemento */
+    width: 80%; /* Aumenta a largura */
+  }
+  
+  .quarto-info p {
+    margin: 8px 0;
+    font-size: 24px; /* Tamanho da fonte */
+    font-weight: 300; /* Thin */
+    color: #333;
+  }
+  
+  .quarto-info .livre {
+    color: #28a745; /* Verde para "Livre" */
+    font-weight: bold;
+  }
+  
+  .quarto-info .ocupado {
+    color: #dc3545; /* Vermelho para "Ocupado" */
+    font-weight: bold;
+  }
+  
+  .quarto-info .manutencao {
+    color: #ffc107; /* Amarelo para "Manutenção" */
+    font-weight: bold;
+  }
+  
+  .temperature-control {
+    background: transparent;
+    padding: 16px;
+    text-align: center;
+    margin: 16px auto;
+    width: 80%; /* Aumenta a largura */
+  }
+
+  .temperature-label {
+    font-size: 24px; /* Tamanho da fonte */
+    font-weight: 300; /* Thin */
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .temperature-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 8px 16px;
+    border-radius: 45px; /* Ajusta o corner radius */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .temp-button {
+    width: 48px; /* Mantém o comprimento */
+    height: 48px; /* Mantém o comprimento */
+    border-radius: 45px; /* Corner radius ajustado */
+    border: 2px solid transparent;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .temp-button.decrease {
+    border-color: #007bff;
+    color: #007bff;
+    background: #e6f7ff;
+  }
+  
+  .temp-button.increase {
+    border-color: #dc3545;
+    color: #dc3545;
+    background: #ffe6e6;
+  }
+  
+  .temp-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .temp-button ion-icon {
+    font-size: 24px;
+  }
+  
+  .change-state-container {
+    text-align: center;
+    margin: 16px auto;
+    width: 80%; /* Aumenta a largura */
+  }
+  
+  .change-state-button {
+    background: #ffffff;
+    border: none;
+    border-radius: 45px; /* Corner radius ajustado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 8px 16px; /* Mantém o comprimento */
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 20px; /* Tamanho da fonte ajustado */
+    font-weight: 300; /* Thin */
+    color: #333;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .change-state-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }

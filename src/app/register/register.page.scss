@@ -1,0 +1,75 @@
+ion-content {
+  --background: #ffffff;
+  height: 100%;
+
+  .register-container {
+    padding-top: 200px; // 👉 Esta é a margem superior que procuras
+    padding-left: 16px;
+    padding-right: 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+
+    .page-title {
+      font-family: "Helvetica Neue", sans-serif;
+      font-weight: bold;
+      font-size: 40px;
+      color: #000;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .form-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .custom-input {
+      --ion-item-border-color: transparent;
+      --background: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 12px;
+
+      display: flex;
+      align-items: center;
+
+      ion-icon {
+        align-self: center;
+        color: #666;
+        margin-right: 8px;
+      }
+
+      ion-label,
+      ion-input {
+        color: #000 !important;
+      }
+    }
+
+    .register-button {
+      margin-top: 24px;
+      border-radius: 9999px;
+      --background: #000;
+      --color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .login-note {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #000;
+      text-align: center;
+
+      .login-link {
+        font-weight: bold;
+        margin-left: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,1 +1,6 @@
-
+ion-tab-bar {
+    --background: #ffffff; /* Fundo branco */
+    --color: #000000; /* Cor padrão dos ícones e texto (preto) */
+    --color-selected: #000000; /* Cor dos ícones e texto selecionados (preto) */
+    border-top: 1px solid #e0e0e0; /* Linha superior para separar a navbar */
+  }

@@ -1,0 +1,67 @@
+<ion-content>
+  <div class="register-container">
+    <h1 class="page-title">Registar Conta</h1>
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" class="form-container">
+
+      <!-- Email -->
+      <ion-item class="custom-input">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+        *Campo obrigatório
+      </ion-note>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
+        Formato de email inválido
+      </ion-note>
+
+      <!-- Palavra-passe -->
+      <ion-item class="custom-input">
+        <ion-icon name="key-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Palavra-Passe</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+        *Campo obrigatório
+      </ion-note>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+        *Mínimo de 6 caracteres
+      </ion-note>
+
+      <!-- Confirmar Palavra-passe -->
+      <ion-item class="custom-input">
+        <ion-icon name="key-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Confirmar Palavra-Passe</ion-label>
+        <ion-input type="password" formControlName="confirmPassword"></ion-input>
+      </ion-item>
+
+      <!-- Mensagem se não coincidem -->
+      <ion-note color="danger"
+        *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.hasError('passwordMismatch')">
+        Palavras-passe não coincidem
+      </ion-note>
+
+      <!-- Campo obrigatório se vazio -->
+      <ion-note color="danger"
+        *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.hasError('required')">
+        *Campo obrigatório
+      </ion-note>
+
+      <!-- Botão -->
+      <ion-button expand="block" type="submit" class="register-button">
+        Registrar
+      </ion-button>
+    </form>
+
+    <!-- Link para login -->
+    <p class="login-note">
+      Já tens conta? <span class="login-link" (click)="irParaLogin()">Login</span>
+    </p>
+  </div>
+</ion-content>

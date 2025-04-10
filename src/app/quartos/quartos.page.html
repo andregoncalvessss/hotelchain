@@ -1,0 +1,49 @@
+<ion-content [fullscreen]="true" class="quarto-background">
+  <div class="back-button-container">
+    <button class="back-button" (click)="voltarPagina()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Dropdown para selecionar o quarto -->
+  <div class="dropdown-container">
+    <ion-select 
+      placeholder="Selecione um quarto" 
+      interface="popover" 
+      (ionChange)="onQuartoSelecionado($event)">
+      <ion-select-option *ngFor="let quarto of quartos" [value]="quarto">
+        Quarto Nº{{ quarto.id }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <!-- Informações do quarto selecionado -->
+  <div *ngIf="quartoSelecionado" class="quarto-info">
+    <p><strong>Estado de Ocupação:</strong> 
+      <span [ngClass]="{'livre': quartoSelecionado.estado === 'Livre', 'ocupado': quartoSelecionado.estado === 'Ocupado', 'manutencao': quartoSelecionado.estado === 'Manutenção'}">
+        {{ quartoSelecionado.estado }}
+      </span>
+    </p>
+    <p><strong>Nº Anomalias:</strong> {{ quartoSelecionado.anomalias }}</p>
+  </div>
+
+  <!-- Botão para mudar o estado de ocupação -->
+  <div *ngIf="quartoSelecionado" class="change-state-container">
+    <button class="change-state-button" (click)="mudarEstadoOcupacao()">
+      Mudar Estado de Ocupação
+    </button>
+  </div>
+
+  <!-- Controle de temperatura -->
+  <div *ngIf="quartoSelecionado" class="temperature-control">
+    <p class="temperature-label">Temperatura: {{ quartoSelecionado.temperatura }}° C</p>
+    <div class="temperature-buttons">
+      <button class="temp-button decrease" (click)="alterarTemperatura(-1)">
+        <ion-icon name="remove-outline"></ion-icon>
+      </button>
+      <button class="temp-button increase" (click)="alterarTemperatura(1)">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+</ion-content>
