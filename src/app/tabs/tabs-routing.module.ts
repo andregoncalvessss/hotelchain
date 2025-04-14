@@ -17,7 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'anomalias',
-        loadChildren: () => import('../anomalias/anomalias.module').then(m => m.anomaliasPageModule)
+        loadChildren: () => import('../anomalias/anomalias.module').then(m => m.AnomaliasPageModule)
       },
       {
         path: 'perfil', // Adicionando a rota para o Perfil

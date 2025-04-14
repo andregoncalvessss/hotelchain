@@ -1,20 +1,18 @@
-import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { anomaliasPage } from './anomalias.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+import { IonicModule } from '@ionic/angular'; // IMPORTANTE: importar o IonicModule
+import { AnomaliasPageRoutingModule } from './anomalias-routing.module';
 
-import { anomaliasPageRoutingModule} from './anomalias-routing.module';
+import { AnomaliasPage } from './anomalias.page';
 
 @NgModule({
   imports: [
-    IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
-    anomaliasPageRoutingModule
+    IonicModule,
+    AnomaliasPageRoutingModule
   ],
-  declarations: [anomaliasPage]
+  declarations: [AnomaliasPage]
 })
-export class anomaliasPageModule {}
+export class AnomaliasPageModule {}

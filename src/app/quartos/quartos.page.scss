@@ -16,6 +16,8 @@
   
   .dropdown-container {
     background: #ffffff;
+    font: 17px 'Helvetica Neue', sans-serif; /* Fonte Helvetica Neue */
+    color: black;
     padding: 12px 16px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -136,4 +138,35 @@
   .change-state-button:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .back-button-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .back-button {
+    background: #ffffff;
+    border: none;
+    border-radius: 50px; /* Rounded button */
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .back-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .back-button ion-icon {
+    font-size: 24px;
+    color: #000;
   }
