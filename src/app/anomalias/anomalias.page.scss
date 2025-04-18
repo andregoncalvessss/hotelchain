@@ -21,8 +21,10 @@ ion-title {
 }
 
 .anomalias-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 16px;
-  text-align: center;
 }
 
 h1 {
@@ -73,14 +75,21 @@ h1 {
 
 .anomalia-card {
   background-color: #ffffff; /* White background */
-  border-radius: 12px; /* Rounded corners */
+  border-radius: 45px; /* Updated corner radius */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 16px;
+  padding: 12px 20px; /* Adjusted padding */
   margin-bottom: 16px;
-  text-align: left; /* Align text to the left */
+  width: 315px; /* Updated width */
+  height: 73px; /* Updated height */
   cursor: pointer;
   transition: border-color 0.2s ease;
   border: 2px solid transparent;
+  display: flex; /* Added flex display */
+  flex-direction: column; /* Column layout */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  margin-left: auto; /* Center align card */
+  margin-right: auto; /* Center align card */
 
   &.selected {
     border-color: #444444; /* dark grey border */
@@ -90,16 +99,23 @@ h1 {
 .quarto-id {
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-weight: 100; /* Thin font weight */
-  font-size: 20px; /* Font size 20 */
+  font-size: 16px; /* Adjusted font size */
   color: #000000 !important; /* Ensure room number text is black */
+  margin: 0; /* Removed margin */
+  text-align: center; /* Center align text */
 }
 
 .anomalia-description {
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-weight: 100; /* Thin font weight */
-  font-size: 18px; /* Font size 18 */
-  margin-top: 8px; /* Add spacing between the room ID and description */
+  font-size: 14px; /* Adjusted font size */
+  margin: 4px 0 0 0; /* Adjusted margin */
   color: inherit; /* Allow inline styles to control the color */
+  text-align: center; /* Center align text */
+  max-width: 90%; /* Limit width */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
 .buttons-container {
