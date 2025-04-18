@@ -21,7 +21,16 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
-  }
+  },
+  {
+    path: 'adicionar-anomalias',
+    loadChildren: () => import('./adicionar-anomalias/adicionar-anomalias.module').then( m => m.AdicionarAnomaliasPageModule)
+  },
+  {
+    path: 'anomalias',
+    loadChildren: () => import('./anomalias/anomalias.module').then(m => m.AnomaliasPageModule)
+  },
+  
 ];
 @NgModule({
   imports: [

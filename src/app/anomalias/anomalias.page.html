@@ -1,39 +1,16 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="voltarPagina()">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Anomalias</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="anomalias-background">
-  <div class="anomalias-header">
-    <h2>Anomalias:</h2>
-  </div>
-
-  <div class="anomalias-list">
-    <ng-container *ngFor="let quarto of quartosComAnomalias">
-      <div *ngFor="let anomalia of quarto.anomalias"
-           class="anomalia-item"
-           [ngClass]="{
-              'green-anomaly': anomalia?.toLowerCase().includes('ar condicionado') || anomalia?.toLowerCase().includes('avari'),
-              'red-anomaly': anomalia?.toLowerCase().includes('fumo') || anomalia?.toLowerCase().includes('incêndio'),
-              'orange-anomaly': anomalia?.toLowerCase().includes('tv') || anomalia?.toLowerCase().includes('frigorífico')
-           }">
-        <p class="anomalia-text">
-          <strong>Quarto {{ quarto.id }}</strong><br>
-          {{ anomalia }}
+<ion-content>
+  <div class="anomalias-container">
+    <h1>Anomalias:</h1>
+    <div *ngFor="let quarto of quartosComAnomalias">
+      <div *ngFor="let anomalia of quarto.anomalias" 
+           class="anomalia-card"
+           [class.selected]="selectedAnomalia === anomalia"
+           (click)="selectAnomalia(anomalia)">
+        <p class="quarto-id">Quarto {{ quarto.id }}</p>
+        <p class="anomalia-description" [style.color]="getSeverityColor(anomalia.severity)">
+          {{ anomalia.description }}
         </p>
       </div>
-    </ng-container>
-  </div>
-
-  <div class="assinar-button-container">
-    <ion-button (click)="assignFuncionario()" expand="block" class="assinar-button">
-      Assinar funcionário para resolver anomalia
-    </ion-button>
+    </div>
   </div>
 </ion-content>

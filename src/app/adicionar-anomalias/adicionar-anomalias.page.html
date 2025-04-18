@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Adicionar Anomalia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Adicionar Anomalia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Quarto</ion-label>
+        <ion-select placeholder="Selecione um quarto" [(ngModel)]="quartoSelecionado">
+          <ion-select-option *ngFor="let quarto of quartos" [value]="quarto.id">
+            Quarto Nº{{ quarto.id }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Severidade</ion-label>
+        <ion-select placeholder="Selecione a severidade" [(ngModel)]="severidadeSelecionada">
+          <ion-select-option value="Baixa">Baixa</ion-select-option>
+          <ion-select-option value="Média">Média</ion-select-option>
+          <ion-select-option value="Alta">Alta</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Descrição</ion-label>
+        <ion-textarea [(ngModel)]="descricaoAnomalia"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" (click)="adicionarAnomalia()">Adicionar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

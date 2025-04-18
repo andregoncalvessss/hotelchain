@@ -24,7 +24,12 @@
         {{ quartoSelecionado.estado }}
       </span>
     </p>
-    <p><strong>Nº Anomalias:</strong> {{ quartoSelecionado.anomalias }}</p>
+    <p><strong>Nº Anomalias:</strong> {{ quartoSelecionado.anomalias.length }}</p>
+    <p *ngIf="quartoSelecionado.anomalias.length > 0">Anomalias:</p>
+    <ul *ngIf="quartoSelecionado.anomalias.length > 0">
+      <li *ngFor="let anomalia of quartoSelecionado.anomalias">{{ anomalia.description }}</li>
+    </ul>
+    <p *ngIf="quartoSelecionado.anomalias.length === 0">Sem anomalias.</p>
   </div>
 
   <!-- Botão para mudar o estado de ocupação -->
