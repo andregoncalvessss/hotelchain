@@ -39,7 +39,7 @@ export class AdicionarAnomaliasPage implements OnInit {
       const normalizedSeverity = this.severidadeSelecionada.toLowerCase();
       const newAnomalia = {
         description: `${this.descricaoAnomalia} (Severidade: ${this.severidadeSelecionada})`,
-        severity: normalizedSeverity
+        severity: normalizedSeverity,
       };
 
       const storedQuartos = await this.storage.get('quartos');
@@ -52,7 +52,8 @@ export class AdicionarAnomaliasPage implements OnInit {
           quarto.anomalias.push(newAnomalia);
           await this.storage.set('quartos', storedQuartos);
           console.log('Added anomaly:', newAnomalia);
-          this.router.navigate(['/anomalias']);
+
+          this.router.navigate(['/tabs/anomalias'], { replaceUrl: true });
         } else {
           console.warn(`Quarto com ID ${this.quartoSelecionado} não encontrado.`);
         }

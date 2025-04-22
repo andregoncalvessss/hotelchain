@@ -19,10 +19,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'perfil',
-    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
-  },
-  {
     path: 'adicionar-anomalias',
     loadChildren: () => import('./adicionar-anomalias/adicionar-anomalias.module').then( m => m.AdicionarAnomaliasPageModule)
   },

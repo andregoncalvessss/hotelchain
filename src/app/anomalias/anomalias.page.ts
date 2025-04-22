@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage-angular';
   standalone: false,
 })
 export class AnomaliasPage implements OnInit {
-  quartosComAnomalias: { id: number; anomalias: { description: string; severity: string; color: string }[] }[] = [];
+  quartosComAnomalias: { id: number; anomalias: { description: string; severity: string; color: string; assigned?: boolean }[] }[] = [];
   quartos: { id: number; estado: string; anomalias: { description: string }[] }[] = [];
   menuAberto: boolean = false;
   quartoSelecionado: number | null = null;
@@ -25,7 +25,7 @@ export class AnomaliasPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    // Refresh the anomalies list when the page is entered
+    // Recarregar as anomalias ao entrar na página
     await this.carregarQuartosComAnomalias();
   }
 
@@ -56,21 +56,14 @@ export class AnomaliasPage implements OnInit {
         .filter((quarto: any) => Array.isArray(quarto.anomalias) && quarto.anomalias.length > 0)
         .map((quarto: any) => ({
           id: quarto.id,
-          anomalias: quarto.anomalias.map((anomalia: any) => {
-            const description = anomalia.description || 'Descrição não disponível';
-            // Extract severity from description if it's in the format "... (Severidade: XYZ)"
-            let severity = anomalia.severity || 'baixa';
-            const match = description.match(/\(Severidade:\s*([^)]+)\)/);
-            if (match) {
-              severity = match[1].toLowerCase();
-            }
-            return {
-              description,
-              severity
-            };
-          })
+          anomalias: quarto.anomalias.map((anomalia: any) => ({
+            description: anomalia.description || 'Descrição não disponível',
+            severity: anomalia.severity || 'baixa',
+            assigned: anomalia.assigned || false,
+            color: this.getSeverityColor(anomalia.severity || 'baixa'),
+          })),
         }));
-      console.log('Processed quartosComAnomalias:', this.quartosComAnomalias);
+      console.log('Processed quartosComAnomalias:', this.quartosComAnomalias); // Debugging log
     } else {
       this.quartosComAnomalias = [];
     }
@@ -133,6 +126,51 @@ export class AnomaliasPage implements OnInit {
       }
     } else {
       console.warn('Por favor, preencha todos os campos.');
+    }
+  }
+
+  async removerAnomalia(quartoId: number, anomalia: any) {
+    const storedQuartos = await this.storage.get('quartos');
+    if (storedQuartos) {
+      const quarto = storedQuartos.find((q: any) => q.id === quartoId);
+      if (quarto) {
+        const index = quarto.anomalias.findIndex(
+          (a: any) => a.description === anomalia.description && a.severity === anomalia.severity
+        );
+
+        if (index !== -1) {
+          quarto.anomalias.splice(index, 1); // Remove the anomaly
+          await this.storage.set('quartos', storedQuartos); // Save the updated state
+          await this.carregarQuartosComAnomalias(); // Refresh the list
+        }
+      }
+    }
+  }
+
+  async marcarFuncionarioParaResolver() {
+    if (!this.selectedAnomalia) {
+      console.warn('Nenhuma anomalia selecionada.');
+      return;
+    }
+
+    const storedQuartos = await this.storage.get('quartos');
+    if (storedQuartos) {
+      const quarto = storedQuartos.find((q: any) =>
+        q.anomalias.some((a: any) => a.description === this.selectedAnomalia.description)
+      );
+
+      if (quarto) {
+        const anomalia = quarto.anomalias.find(
+          (a: any) => a.description === this.selectedAnomalia.description
+        );
+
+        if (anomalia) {
+          anomalia.assigned = true; // Mark the anomaly as assigned
+          await this.storage.set('quartos', storedQuartos); // Save the updated state
+          await this.carregarQuartosComAnomalias(); // Refresh the list
+          console.log(`Funcionário assinalado para resolver a anomalia: ${anomalia.description}`);
+        }
+      }
     }
   }
 
