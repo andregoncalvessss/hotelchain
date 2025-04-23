@@ -3,7 +3,7 @@ ion-content {
   height: 100%;
 
   .register-container {
-    padding-top: 200px; // 👉 Esta é a margem superior que procuras
+    padding-top: 70px; /* Espaço no topo */
     padding-left: 16px;
     padding-right: 16px;
 
@@ -57,6 +57,12 @@ ion-content {
       --color: #fff;
       font-weight: 500;
       font-size: 16px;
+      --background-activated: white; /* Muda para branco quando pressionado */
+      --background-focused: white; /* Muda para branco quando em foco */
+      --background-hover: white; /* Muda para branco quando em hover */
+      --color-activated: black; /* Muda o texto para preto quando pressionado */
+      --color-focused: black; /* Muda o texto para preto quando em foco */
+      --color-hover: black; /* Muda o texto para branco quando em hover */
     }
 
     .login-note {

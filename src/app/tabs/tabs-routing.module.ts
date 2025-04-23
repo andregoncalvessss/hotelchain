@@ -9,36 +9,36 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardPageModule),
+        loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardPageModule)
       },
       {
         path: 'quartos',
-        loadChildren: () => import('../quartos/quartos.module').then(m => m.QuartosPageModule),
+        loadChildren: () => import('../quartos/quartos.module').then(m => m.QuartosPageModule)
       },
       {
         path: 'anomalias',
-        loadChildren: () => import('../anomalias/anomalias.module').then(m => m.AnomaliasPageModule),
+        loadChildren: () => import('../anomalias/anomalias.module').then(m => m.AnomaliasPageModule)
       },
       {
         path: 'perfil',
-        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule),
+        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       {
         path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
-      },
-    ],
+        redirectTo: '/tabs/dashboard',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: '',
     redirectTo: '/tabs/dashboard',
-    pathMatch: 'full',
-  },
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class TabsPageRoutingModule {}

@@ -3,57 +3,78 @@ ion-content {
     position: relative;
   
     .background-image {
-      background: url('/assets/photos/background.jpg') no-repeat center center / cover;
       position: absolute;
-      inset: 0;
-      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/assets/photos/background.jpg'); // Caminho correto da imagem
+      background-size: cover;
+      background-position: right center; /* Voltando para a posição anterior */
+      z-index: 1;
     }
   
     .overlay {
-      position: relative;
-      z-index: 1;
-      height: 100%;
+      position: absolute;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 32px;
-      text-align: center;
-      color: white;
+      justify-content: space-between; /* Distribui os elementos entre o topo e o fundo */
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    .title-container {
+      position: absolute;
+      top: 46%; /* Ajustado só um pouquinho mais para baixo */
+      left: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      margin-top: 80px; /* Aumentado para puxar mais para baixo */
     }
   
     .title {
-      font-size: 48px;
-      font-weight: bold;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700; /* Bold */
+      font-size: 64px;
+      color: white;
       margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      line-height: 1;
+      text-align: left;
+    }
+
+    .title:nth-child(2) {
+      margin-left: 160px; /* Aumentado para mover ainda mais para a direita */
     }
   
     .start-button {
-      margin-top: 40px;
-      width: 100%;
-      max-width: 280px;
-      padding: 12px 16px;
-  
-      /* Borda arredondada entre 30 e 45px */
-      border-radius: 35px;
-  
-      --background: #ffffff; /* Cor de fundo do botão */
-      --color: #000000;      /* Cor do texto do botão */
-  
-      /* Texto ligeiramente maior/negrito */
-      font-weight: bold;
-      font-size: 1.1rem;
+      --background: white;
+      --color: #000;
+      --border-radius: 24px;
+      margin: 0 auto;
+      width: 80%;
+      max-width: 300px;
+      height: 50px;
+      font-weight: 400;
       letter-spacing: 0.5px;
-  
-      /* Sombra para destaque */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
-  
-      /* Animação de clique */
-      transition: transform 0.2s ease-in-out;
-  
-      &:active {
-        transform: scale(0.96);
-      }
+      font-size: 16px;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --ripple-color: transparent; /* Remove o efeito de ondulação (ripple) */
+      --background-activated: black; /* Muda para preto quando pressionado */
+      --background-focused: black; /* Muda para preto quando em foco */
+      --background-hover: black; /* Muda para preto quando em hover */
+      --color-activated: white; /* Muda o texto para branco quando pressionado */
+      --color-focused: white; /* Muda o texto para branco quando em foco */
+      --color-hover: white; /* Muda o texto para branco quando em hover */
     }
   }
-  

@@ -4,7 +4,6 @@ import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
 import { ToastController, LoadingController } from '@ionic/angular';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -17,11 +16,15 @@ export class RegisterPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private supabaseService: SupabaseService,
-    private router: Router
+    private router: Router,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['']
@@ -41,20 +44,51 @@ export class RegisterPage implements OnInit {
 
   async submit() {
     if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      const { data, error } = await this.supabaseService.signUp(email, password);
+      const { email, password, firstName, lastName } = this.registerForm.value;
 
-      if (error) {
-        console.error('Erro ao criar utilizador:', error.message);
-        // Aqui podes mostrar um toast de erro
-      } else {
-        console.log('Utilizador criado com sucesso:', data.user);
-        // ✅ Redireciona para o dashboard com navbar
-        this.router.navigateByUrl('/tabs/dashboard');
+      try {
+        const loading = await this.loadingCtrl.create({
+          message: 'Creating account...',
+          spinner: 'crescent'
+        });
+        await loading.present();
+
+        // Chama o método signUp
+        const { data, error } = await this.supabaseService.signUp(
+          email,
+          password,
+          firstName,
+          lastName
+        );
+
+        await loading.dismiss();
+
+        if (error) {
+          console.error('Error during registration:', error.message);
+          this.presentToast('Error creating account: ' + error.message, 'danger');
+        } else {
+          console.log('User registered successfully:', data);
+          this.presentToast('Account created successfully!', 'success');
+          this.router.navigateByUrl('/tabs/dashboard');
+        }
+      } catch (e) {
+        console.error('Unexpected error during registration:', e);
+        this.presentToast('An unexpected error occurred', 'danger');
       }
     } else {
-      console.log('Formulário inválido');
+      console.log('Invalid form');
+      this.presentToast('Please fill in all required fields correctly', 'warning');
     }
+  }
+
+  async presentToast(message: string, color: string = 'primary') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2500,
+      position: 'bottom',
+      color
+    });
+    await toast.present();
   }
 
   irParaLogin() {

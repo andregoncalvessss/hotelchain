@@ -193,6 +193,12 @@ h1 {
   box-shadow: none; /* Remove any shadow */
   border: none; /* Remove any border */
   padding: 0;
+  --background-activated: black; /* Muda para preto quando pressionado */
+  --background-focused: black; /* Muda para preto quando em foco */
+  --background-hover: black; /* Muda para preto quando em hover */
+  --color-activated: white; /* Muda o texto para branco quando pressionado */
+  --color-focused: white; /* Muda o texto para branco quando em foco */
+  --color-hover: white; /* Muda o texto para branco quando em hover */
 }
 
 ion-fab {
@@ -205,4 +211,57 @@ ion-fab {
   margin-left: 4px; /* Reduced margin to bring it closer */
   margin-right: 0; /* Remove right margin */
   vertical-align: middle;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.back-button-container {
+  padding: 10px 15px;
+  /* Removida a margin-top: 20px; que foi adicionada anteriormente */
+}
+
+.back-button {
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  ion-icon {
+    font-size: 1.5rem;
+    color: black;
+  }
+}
+
+.sem-anomalias-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.sem-anomalias {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Mantém o texto alinhado à esquerda */
+  justify-content: flex-start;
+  text-align: left;
+  
+  p {
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 50px; /* Tamanho 50 */
+    color: #000000; /* Preto */
+    margin: 5px 0;
+    line-height: 1.1; /* Ajustar espaçamento entre linhas */
+  }
 }

@@ -1,6 +1,24 @@
 <ion-content>
+  <div class="back-button-container">
+    <button class="back-button" (click)="voltarPagina()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+  </div>
+  
   <div class="anomalias-container">
-    <h1>Anomalias:</h1>
+    <!-- Título exibido apenas quando há anomalias -->
+    <h1 *ngIf="quartosComAnomalias && quartosComAnomalias.length > 0">Anomalias:</h1>
+    
+    <!-- Mensagem quando não há anomalias -->
+    <div *ngIf="!quartosComAnomalias || quartosComAnomalias.length === 0" class="sem-anomalias-container">
+      <div class="sem-anomalias">
+        <p>Sem</p>
+        <p>Anomalias</p>
+        <p>de</p>
+        <p>Momento</p>
+      </div>
+    </div>
+    
     <div *ngFor="let quarto of quartosComAnomalias">
       <div *ngFor="let anomalia of quarto.anomalias" 
            class="anomalia-card"
@@ -27,7 +45,11 @@
     <ion-button class="custom-button" [routerLink]="['/adicionar-anomalias']">
       Adicionar Anomalia
     </ion-button>
-    <ion-button class="custom-button" (click)="marcarFuncionarioParaResolver()">
+    <!-- Botão "Assinalar Funcionário" aparece apenas quando há anomalias -->
+    <ion-button 
+      *ngIf="quartosComAnomalias && quartosComAnomalias.length > 0"
+      class="custom-button" 
+      (click)="marcarFuncionarioParaResolver()">
       Assinalar Funcionário para resolver anomalia
     </ion-button>
   </div>

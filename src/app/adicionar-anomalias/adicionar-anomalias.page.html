@@ -1,10 +1,10 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Adicionar Anomalia</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="back-button-container">
+    <button class="back-button" (click)="voltarPagina()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+  </div>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>Adicionar Anomalia</ion-card-title>
@@ -28,7 +28,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Descrição</ion-label>
-        <ion-textarea [(ngModel)]="descricaoAnomalia"></ion-textarea>
+        <ion-textarea [(ngModel)]="descricaoAnomalia" placeholder="Faça aqui a descrição da anomalia..."></ion-textarea>
       </ion-item>
       <ion-button expand="block" (click)="adicionarAnomalia()">Adicionar</ion-button>
     </ion-card-content>

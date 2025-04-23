@@ -4,6 +4,28 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="submit()" class="form-container">
 
+      <!-- Primeiro Nome -->
+      <ion-item class="custom-input">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Primeiro Nome</ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.hasError('required')">
+        *Campo obrigatório
+      </ion-note>
+
+      <!-- Último Nome -->
+      <ion-item class="custom-input">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Último Nome</ion-label>
+        <ion-input type="text" formControlName="lastName"></ion-input>
+      </ion-item>
+      <ion-note color="danger"
+        *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.hasError('required')">
+        *Campo obrigatório
+      </ion-note>
+
       <!-- Email -->
       <ion-item class="custom-input">
         <ion-icon name="mail-outline" slot="start"></ion-icon>

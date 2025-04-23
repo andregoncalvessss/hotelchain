@@ -11,8 +11,8 @@ import { NavController } from '@ionic/angular';
 export class QuartoPage {
   quartos: any[] = [
     { id: 101, estado: 'Livre', anomalias: [], temperatura: 22 },
-    { id: 102, estado: 'Ocupado', anomalias: [{ description: "Ar Condicionado Avariado" }], temperatura: 24 },
-    { id: 103, estado: 'Manutenção', anomalias: [{ description: "TV com anomalia" }, { description: "Frigorífico com anomalia" }], temperatura: 20 },
+    { id: 102, estado: 'Ocupado', anomalias: [], temperatura: 24 },
+    { id: 103, estado: 'Manutenção', anomalias: [], temperatura: 20 },
     { id: 104, estado: 'Livre', anomalias: [], temperatura: 21 },
   ];
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adicionar-anomalias',
@@ -14,7 +15,12 @@ export class AdicionarAnomaliasPage implements OnInit {
   severidadeSelecionada: string | null = null;
   descricaoAnomalia: string = '';
 
-  constructor(private storage: Storage, private router: Router) {}
+  constructor(
+    private storage: Storage, 
+    private router: Router,
+    private alertController: AlertController,
+    private navCtrl: NavController
+  ) {}
 
   async ngOnInit() {
     await this.storage.create();
@@ -35,13 +41,26 @@ export class AdicionarAnomaliasPage implements OnInit {
   }
 
   async adicionarAnomalia() {
-    if (this.quartoSelecionado && this.descricaoAnomalia && this.severidadeSelecionada) {
-      const normalizedSeverity = this.severidadeSelecionada.toLowerCase();
-      const newAnomalia = {
-        description: `${this.descricaoAnomalia} (Severidade: ${this.severidadeSelecionada})`,
-        severity: normalizedSeverity,
-      };
+    if (!this.quartoSelecionado || !this.descricaoAnomalia || !this.severidadeSelecionada) {
+      const alert = await this.alertController.create({
+        header: 'Campos em falta',
+        message: 'Por favor, preencha todos os campos obrigatórios.',
+        buttons: ['OK'],
+        cssClass: 'custom-alert'
+      });
 
+      await alert.present();
+      return;
+    }
+
+    const normalizedSeverity = this.severidadeSelecionada.toLowerCase();
+    const newAnomalia = {
+      description: `${this.descricaoAnomalia} (Severidade: ${this.severidadeSelecionada})`,
+      severity: normalizedSeverity,
+      assigned: false // Garantir que o campo assigned seja inicializado
+    };
+
+    try {
       const storedQuartos = await this.storage.get('quartos');
       if (storedQuartos) {
         const quarto = storedQuartos.find((q: any) => q.id === this.quartoSelecionado);
@@ -51,15 +70,20 @@ export class AdicionarAnomaliasPage implements OnInit {
           }
           quarto.anomalias.push(newAnomalia);
           await this.storage.set('quartos', storedQuartos);
-          console.log('Added anomaly:', newAnomalia);
+          console.log('Anomalia adicionada com sucesso:', newAnomalia);
 
-          this.router.navigate(['/tabs/anomalias'], { replaceUrl: true });
+          // Navegar de volta para a página de anomalias
+          this.router.navigate(['/tabs/anomalias']);
         } else {
           console.warn(`Quarto com ID ${this.quartoSelecionado} não encontrado.`);
         }
       }
-    } else {
-      console.warn('Por favor, preencha todos os campos.');
+    } catch (error) {
+      console.error('Erro ao adicionar anomalia:', error);
     }
+  }
+
+  voltarPagina() {
+    this.navCtrl.back();
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-anomalias',
@@ -16,10 +17,13 @@ export class AnomaliasPage implements OnInit {
   descricaoAnomalia: string = '';
   selectedAnomalia: any = null;
 
-  constructor(private storage: Storage) {}
+  constructor(private storage: Storage, private navCtrl: NavController) {}
 
   async ngOnInit() {
     await this.storage.create();
+
+    // Remover a limpeza automática das anomalias existentes na inicialização
+    // Apenas carregar os dados atuais
     await this.carregarQuartos();
     await this.carregarQuartosComAnomalias();
   }
@@ -176,5 +180,9 @@ export class AnomaliasPage implements OnInit {
 
   selectAnomalia(anomalia: any) {
     this.selectedAnomalia = anomalia;
+  }
+
+  voltarPagina() {
+    this.navCtrl.back();
   }
 }

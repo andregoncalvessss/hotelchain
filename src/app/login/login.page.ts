@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from '../services/supabase.service';
 import { Router } from '@angular/router';
@@ -18,7 +18,8 @@ export class LoginPage implements OnInit {
     private supabaseService: SupabaseService,
     private router: Router,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -40,23 +41,34 @@ export class LoginPage implements OnInit {
     });
     await loading.present();
 
-    const { email, password } = this.loginForm.value;
-    const { error, data } = await this.supabaseService.signIn(email, password);
+    try {
+      const { email, password } = this.loginForm.value;
+      const { error, data } = await this.supabaseService.signIn(email, password);
 
-    await loading.dismiss();
+      await loading.dismiss();
 
-    // Debug (opcional): ver o que o Supabase retorna
-    console.log('DATA:', data);
-    console.log('SESSION:', data?.session);
-    console.log('USER:', data?.user);
-    
-    if (error) {
-      this.presentToast('Credenciais inválidas. Tenta novamente.', 'danger');
-      return;
+      // Debug: ver resposta do Supabase
+      console.log('LOGIN RESPONSE:', { error, data });
+      
+      if (error) {
+        this.presentToast('Credenciais inválidas. Tenta novamente.', 'danger');
+        return;
+      }
+
+      // Login bem-sucedido
+      this.presentToast('Bem-vindo!', 'success');
+      
+      // Navegar para a tab de dashboard com timeout para garantir que o toast seja exibido primeiro
+      setTimeout(() => {
+        console.log('Navegando para dashboard após login...');
+        // Navegar para a rota raiz que deve carregar as tabs
+        window.location.href = '/';
+      }, 1000);
+    } catch (e) {
+      await loading.dismiss();
+      console.error('Erro durante login:', e);
+      this.presentToast('Erro ao fazer login. Verifique o console para detalhes.', 'danger');
     }
-
-    this.presentToast('Bem-vindo!', 'success');
-    this.router.navigateByUrl('/tabs/dashboard');
   }
 
   async presentToast(message: string, color: string = 'primary') {
