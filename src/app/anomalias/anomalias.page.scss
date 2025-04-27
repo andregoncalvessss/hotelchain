@@ -1,5 +1,7 @@
 ion-content {
-  --background: #ECECEC; /* Set the background color to #ECECEC */
+  --background: #ECECEC; /* Atualiza a cor de fundo */
+  --overflow: hidden;
+  position: relative;
 }
 
 ion-header {
@@ -23,9 +25,12 @@ ion-title {
 .anomalias-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Keep center alignment for buttons */
+  align-items: center;
   padding: 16px;
   width: 100%;
+  gap: 16px;
+  margin-top: 0; /* Garantindo que não haja margem no topo */
+  align-self: flex-start; /* Alinhando no início (topo) do container pai */
 }
 
 h1 {
@@ -45,31 +50,53 @@ h1 {
   gap: 16px;
 
   .anomaly-item {
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 45px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 12px 30px;
+    margin-bottom: 16px;
+    width: 315px;
+    height: 70px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    position: relative;
+  }
 
-    .room-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
+  .anomaly-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
 
-    .anomaly-description {
-      font-size: 16px;
-      color: #666;
-      padding: 8px;
-      background-color: #f9f9f9;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
+  .anomaly-item.selected {
+    border: 2px solid #444444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .anomaly-item-icon {
+    font-size: 20px;
+    height: 30px;
+    color: inherit;
+    margin-right: 8px;
+  }
+
+  .anomaly-item-text {
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    margin: 2px 0 0 0;
+    color: inherit;
+    text-align: left;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -78,44 +105,118 @@ h1 {
 }
 
 .anomalia-card {
-  background-color: #ffffff; /* White background */
-  border-radius: 45px; /* Updated corner radius */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 12px 30px; /* Increased left/right padding */
-  margin-bottom: 16px;
-  width: 315px; /* Updated width */
-  height: 90px; /* Increased height from 73px to 90px */
+  background-color: white;
+  border-radius: 45px;
+  padding: 10px 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+  transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  transition: border-color 0.2s ease;
-  border: 2px solid transparent;
-  display: flex; /* Added flex display */
-  flex-direction: column; /* Column layout */
-  justify-content: space-between; /* Adjusted layout */
-  align-items: flex-start; /* Change from center to flex-start */
-  margin-left: auto; /* Center align card */
-  margin-right: auto; /* Center align card */
-  text-align: left; /* Ensure all text inside the card is aligned to the left */
-  position: relative; /* Added position relative */
-  transition: all 0.2s ease;
+  width: 315px;
+  height: 73px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  position: relative;
+}
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-  }
+.card-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
 
-  &.selected {
-    border: 2px solid #444444;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+.running-man {
+  position: static;
+  display: inline-flex;
+  margin-left: 8px;
+  align-items: center;
+}
 
-  .card-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Ensure content is left-aligned */
-    justify-content: center;
-    padding-right: 50px; /* Increased padding to accommodate the repositioned icon */
-  }
+.running-man ion-icon {
+  font-size: 20px;
+  color: #4CAF50;
+  animation: running 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes running {
+  0% { transform: translateX(-2px); }
+  100% { transform: translateX(2px); }
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.text-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.assigned-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.assigned-icon ion-icon {
+  font-size: 24px;
+  color: #444444;
+  animation: running 1s infinite alternate;
+}
+
+.anomalia-card.selected {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border: 2px solid #444444; /* Changed from blue to dark gray */
+  transform: translateY(-2px);
+}
+
+.quarto-title {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 300; /* 300 is Helvetica Neue Light */
+  font-size: 24px;
+  margin: 0;
+  margin-bottom: 0px; /* Reduced from 2px to 0px */
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.anomalia-description {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 300; /* Changed from 100 (Thin) to 300 (Light) */
+  font-size: 20px;
+  margin: 0;
+  margin-top: 0px; /* Reduced from 2px to 0px */
+  padding-bottom: 0px; /* Reduced from 2px to 0px */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  flex: 1;
+}
+
+// Color mapping for different anomaly severities
+.grave {
+  color: #F44336; // Red for serious anomalies
+}
+
+.media {
+  color: #FF9800; // Orange for medium anomalies
+}
+
+.baixa {
+  color: #4CAF50; // Green for minor anomalies
 }
 
 .card-content {
@@ -130,8 +231,8 @@ h1 {
   transform: translateY(-50%);
   --padding-start: 4px; /* Reduced padding */
   --padding-end: 4px; /* Reduced padding */
-  height: 30px; /* Reduced height */
-  width: 30px; /* Added width */
+  height: 25px; /* Further reduced height */
+  width: 25px; /* Further reduced width */
   color: #ff4444;
   margin: 0;
 
@@ -143,7 +244,7 @@ h1 {
 .quarto-id {
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-weight: 100; /* Thin font weight */
-  font-size: 24px; /* Adjusted font size */
+  font-size: 20px; /* Slightly reduced font size */
   color: #000000 !important; /* Ensure room number text is black */
   margin: 0; /* Removed margin */
   text-align: left; /* Align room text to the left */
@@ -151,19 +252,6 @@ h1 {
   display: flex;
   justify-content: flex-start; /* Align text and icon to the start */
   align-items: center; /* Vertically align the icon */
-}
-
-.anomalia-description {
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-weight: 100; /* Thin font weight */
-  font-size: 20px; /* Adjusted font size */
-  margin: 4px 0 0 0; /* Adjusted margin */
-  color: inherit; /* Allow inline styles to control the color */
-  text-align: left; /* Align anomaly text to the left */
-  width: 100%; /* Ensure full width */
-  white-space: nowrap; /* Prevent text wrapping */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
 .buttons-container {
@@ -184,7 +272,7 @@ h1 {
 .custom-button {
   --background: #ffffff;
   --color: #000000;
-  --border-radius: 45px;
+  --border-radius: 20px !important; /* Updated border radius */
   width: 280px; /* Adjusted width */
   height: 60px; /* Adjusted height */
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
@@ -199,6 +287,16 @@ h1 {
   --color-activated: white; /* Muda o texto para branco quando pressionado */
   --color-focused: white; /* Muda o texto para branco quando em foco */
   --color-hover: white; /* Muda o texto para branco quando em hover */
+  margin: 0 auto; /* Center the button horizontally */
+}
+
+.button-container {
+  position: fixed;
+  bottom: 20px; /* Updated position */
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 100; /* Ensure it stays on top */
 }
 
 ion-fab {
@@ -253,15 +351,478 @@ ion-fab {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Mantém o texto alinhado à esquerda */
-  justify-content: flex-start;
+  justify-content: center;
   text-align: left;
+  margin-bottom: 60px; /* Space for the button below */
   
   p {
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
     font-weight: 300; /* Light */
-    font-size: 50px; /* Tamanho 50 */
+    font-size: 64px; /* Tamanho 64 */
     color: #000000; /* Preto */
     margin: 5px 0;
     line-height: 1.1; /* Ajustar espaçamento entre linhas */
   }
+}
+
+/* Estilo para o card com opções duplas */
+.dual-options-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 16px auto; /* Centraliza horizontalmente */
+  overflow: hidden;
+  max-width: 280px; /* Diminui a largura */
+  width: 80%; /* Largura responsiva */
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px; /* Reduced padding */
+  height: 60px; /* Reduced height from 70px */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.option-item:first-child {
+  border-bottom: 1px solid #ececec;
+}
+
+.option-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.option-text {
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: #000;
+}
+
+.option-icon {
+  font-size: 24px;
+  color: #000;
+}
+
+.anomalia-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.delete-icon:hover {
+  color: #f44336;
+}
+
+.delete-icon ion-icon {
+  font-size: 18px;
+}
+
+.no-anomalias {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: flex-start; /* Alinha o texto à esquerda */
+  text-align: left; /* Alinha o texto à esquerda */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: auto; /* Ajusta a altura para o conteúdo */
+  width: 100%;
+  padding-left: 40px; /* Mantém o espaçamento para o alinhamento à esquerda */
+  color: #000; /* Garante que o texto seja preto */
+  visibility: visible; /* Garante que o texto seja visível */
+  
+  p {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 64px; /* Tamanho 64 */
+    color: #000000; /* Preto */
+    margin: 5px 0;
+    line-height: 1.1; /* Ajustar espaçamento entre linhas */
+  }
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alterado de 'center' para 'flex-start' para alinhar conteúdo no topo */
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  padding-top: 20px; /* Espaço no topo para o botão de voltar */
+  padding-bottom: 180px !important; /* Ajustar espaço para os botões fixos */
+  overflow-y: auto; /* Permitir rolagem se o conteúdo for muito grande */
+}
+
+/* Botão para adicionar anomalias no topo */
+.button-top {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  width: auto;
+}
+
+.button-top .custom-button {
+  width: auto;
+  height: 40px;
+  font-size: 14px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+}
+
+/* Container para os botões */
+.buttons-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Botão para assinalar funcionário */
+.assign-button {
+  --background: #4CAF50;
+  --color: white;
+  --border-radius: 20px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  width: 80%;
+  max-width: 300px;
+  margin: 10px 0;
+  z-index: 99;
+}
+
+/* Estilo para o ícone do botão */
+.assign-button ion-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Container para o botão de assinalar funcionário */
+.assign-func-container {
+  position: fixed;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Estilo para o botão de assinalar funcionário */
+.assign-func-button {
+  --background: #4CAF50;
+  --color: white;
+  --border-radius: 20px;
+  width: 80%;
+  max-width: 280px;
+  height: 45px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.assign-func-button ion-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Container para o botão de assinalar funcionário - simplified and enhanced */
+.fixed-button-container {
+  position: fixed !important;
+  bottom: 90px !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  z-index: 1100 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Estilo para o botão de assinalar funcionário - enhanced visibility */
+.funcionario-button {
+  --background: #4CAF50 !important;
+  --color: white !important;
+  --border-radius: 45px !important;
+  width: 80% !important;
+  max-width: 280px !important;
+  height: 50px !important;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !important;
+  font-weight: 300 !important;
+  font-size: 16px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: 0.5px !important;
+  margin: 0 auto !important;
+  --padding-top: 10px !important;
+  --padding-bottom: 10px !important;
+  --padding-start: 20px !important;
+  --padding-end: 20px !important;
+}
+
+.funcionario-button ion-icon {
+  margin-right: 10px !important;
+  font-size: 20px !important;
+}
+
+/* Ajuste para o botão "Adicionar anomalia" */
+.add-button-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  z-index: 1000 !important;
+}
+
+/* Container para o botão de assinalar funcionário */
+.fixed-button-container {
+  position: fixed;
+  bottom: 90px; /* Posicionado acima do botão de adicionar anomalia */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1100 !important; /* Garantir que fique acima de TODOS os outros elementos */
+  pointer-events: auto !important; /* Garantir que o botão possa ser clicado */
+}
+
+/* Estilo para o botão de assinalar funcionário */
+.funcionario-button {
+  --background: #4CAF50;
+  --color: white;
+  --border-radius: 20px;
+  width: 80%;
+  max-width: 280px;
+  height: 45px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Adicionar sombra para destaque */
+}
+
+/* Container para o botão de adicionar anomalia */
+.add-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Container para o botão de assinalar funcionário - atualizado para coincidir com o botão de adicionar anomalia */
+.fixed-button-container {
+  position: fixed !important;
+  bottom: 90px !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  z-index: 1100 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Estilo para o botão de assinalar funcionário - agora igual ao custom-button */
+.assinalar-button {
+  --background: #ffffff !important;
+  --color: #000000 !important;
+  --border-radius: 20px !important;
+  width: 280px !important;
+  height: 60px !important;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 100 !important;
+  box-shadow: none !important;
+  border: none !important;
+  --background-activated: black !important;
+  --background-focused: black !important;
+  --background-hover: black !important;
+  --color-activated: white !important;
+  --color-focused: white !important;
+  --color-hover: white !important;
+  margin: 0 auto !important;
+}
+
+/* Ajustes para os botões fixos */
+.add-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.assign-button-container {
+  position: fixed;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1001;
+}
+
+/* Garantir espaço suficiente para os botões */
+.content-container {
+  padding-bottom: 180px !important;
+}
+
+/* Estilo para os botões */
+.custom-button {
+  --background: #ffffff;
+  --color: #000000;
+  --border-radius: 20px !important;
+  width: 280px;
+  height: 60px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 18px;
+  font-weight: 100;
+  box-shadow: none;
+  border: none;
+  --background-activated: black;
+  --background-focused: black;
+  --background-hover: black;
+  --color-activated: white;
+  --color-focused: white;
+  --color-hover: white;
+  margin: 0 auto;
+}
+
+/* Aumentar o espaçamento no content-container para acomodar ambos os botões */
+.content-container {
+  padding-bottom: 160px !important;
+}
+
+/* Container para ambos os botões no fundo da página */
+.bottom-buttons-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* Container para o botão de adicionar anomalia */
+.add-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Container para o botão de assinalar funcionário */
+.assign-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Estilo para ambos os botões */
+.custom-button {
+  --background: #ffffff;
+  --color: #000000;
+  --border-radius: 20px !important;
+  width: 280px;
+  height: 60px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 18px;
+  font-weight: 100;
+  box-shadow: none;
+  border: none;
+  --background-activated: black;
+  --background-focused: black;
+  --background-hover: black;
+  --color-activated: white;
+  --color-focused: white;
+  --color-hover: white;
+  margin: 0 auto;
+}
+
+/* Ajustar o espaçamento do conteúdo para acomodar os botões */
+.content-container {
+  padding-bottom: 160px !important;
+}
+
+/* Grupo de botões no rodapé */
+.button-group {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 9999;
+  padding: 0 20px;
+}
+
+/* Wrapper para o botão de assinalar, para garantir que ocupa espaço mesmo quando não visível */
+.assign-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Estilo dos botões */
+.custom-button {
+  --background: #ffffff;
+  --color: #000000;
+  --border-radius: 20px;
+  width: 280px;
+  height: 60px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 18px;
+  font-weight: 100;
+  box-shadow: none;
+  border: none;
+  --background-activated: black;
+  --background-focused: black;
+  --background-hover: black;
+  --color-activated: white;
+  --color-focused: white;
+  --color-hover: white;
+  margin: 0 auto;
+}
+
+/* Ajustar o espaçamento do conteúdo para acomodar os botões */
+.content-container {
+  padding-bottom: 180px !important;
 }

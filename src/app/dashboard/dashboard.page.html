@@ -6,6 +6,84 @@
       <p class="greeting">BOM DIA</p>
       <h2 class="username">{{ userName }}</h2>
     </div>
-    <ion-icon name="notifications-outline" class="notification-icon"></ion-icon>
+    <div class="notification-icon-container" (click)="toggleNotificationMute()">
+      <ion-icon [name]="isMuted ? 'notifications-off-outline' : 'notifications-outline'" class="notification-icon"></ion-icon>
+    </div>
   </div>
+
+  <!-- Menu Card -->
+  <ion-card class="dual-options-card">
+    <div class="options-list">
+      <div class="option-item" (click)="gerirQuartos()">
+        <span class="option-text">
+          Gerir<br>
+          Quartos
+        </span>
+        <ion-icon name="bed-outline" class="option-icon"></ion-icon>
+      </div>
+      <div class="option-item" (click)="gerirAnomalias()">
+        <span class="option-text">
+          Gerir<br>
+          Anomalias
+        </span>
+        <ion-icon name="alert-circle-outline" class="option-icon"></ion-icon>
+      </div>
+    </div>
+  </ion-card>
+
+  <!-- Status dos Quartos -->
+  <ion-card class="status-card quartos-card">
+    <h3>Status dos Quartos</h3>
+    <div class="status-grid">
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Ocupados</p>
+          <p class="status-value">{{ quartosOcupados }}</p>
+        </div>
+        <ion-icon name="bed-outline" class="room-status-item-icon occupied-icon"></ion-icon>
+      </div>
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Livres</p>
+          <p class="status-value">{{ quartosDisponiveis }}</p>
+        </div>
+        <ion-icon name="checkbox-outline" class="room-status-item-icon available-icon"></ion-icon>
+      </div>
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Limpeza</p>
+          <p class="status-value">{{ quartosLimpeza }}</p>
+        </div>
+        <ion-icon name="water-outline" class="room-status-item-icon cleaning-icon"></ion-icon>
+      </div>
+    </div>
+  </ion-card>
+
+  <!-- Status das Anomalias -->
+  <ion-card class="status-card anomalias-card">
+    <h3>Status das Anomalias</h3>
+    <div class="status-grid">
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Graves</p>
+          <p class="status-value">{{ anomaliasGraves }}</p>
+        </div>
+        <ion-icon name="alert-circle-outline" class="room-status-item-icon severe-icon"></ion-icon>
+      </div>
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Médias</p>
+          <p class="status-value">{{ anomaliasMedias }}</p>
+        </div>
+        <ion-icon name="warning-outline" class="room-status-item-icon moderate-icon"></ion-icon>
+      </div>
+      <div class="room-status-item">
+        <div class="text-container">
+          <p class="status-label">Baixas</p>
+          <p class="status-value">{{ anomaliasBaixas }}</p>
+        </div>
+        <ion-icon name="information-circle-outline" class="room-status-item-icon low-icon"></ion-icon>
+      </div>
+    </div>
+  </ion-card>
 </ion-content>

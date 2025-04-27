@@ -57,7 +57,9 @@ export class AdicionarAnomaliasPage implements OnInit {
     const newAnomalia = {
       description: `${this.descricaoAnomalia} (Severidade: ${this.severidadeSelecionada})`,
       severity: normalizedSeverity,
-      assigned: false // Garantir que o campo assigned seja inicializado
+      color: this.getSeverityColor(normalizedSeverity),
+      assigned: false,
+      timestamp: Date.now() // Adicionar timestamp para ordenação
     };
 
     try {
@@ -68,7 +70,8 @@ export class AdicionarAnomaliasPage implements OnInit {
           if (!Array.isArray(quarto.anomalias)) {
             quarto.anomalias = [];
           }
-          quarto.anomalias.push(newAnomalia);
+          // Adicionar a nova anomalia no início do array para aparecer primeiro
+          quarto.anomalias.unshift(newAnomalia);
           await this.storage.set('quartos', storedQuartos);
           console.log('Anomalia adicionada com sucesso:', newAnomalia);
 
@@ -80,6 +83,21 @@ export class AdicionarAnomaliasPage implements OnInit {
       }
     } catch (error) {
       console.error('Erro ao adicionar anomalia:', error);
+    }
+  }
+
+  getSeverityColor(severity: string): string {
+    switch (severity) {
+      case 'baixa':
+        return '#4CAF50'; // Green
+      case 'media':
+      case 'média':
+        return '#FF9800'; // Orange
+      case 'grave':
+      case 'alta':
+        return '#F44336'; // Red
+      default:
+        return '#000000'; // Black
     }
   }
 

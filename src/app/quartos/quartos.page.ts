@@ -22,16 +22,29 @@ export class QuartoPage {
 
   async ngOnInit() {
     await this.storage.create();
-    const storedQuartos = await this.storage.get('quartos');
+    await this.carregarQuartos();
+  }
+
+  private getRoomStorageKey(): string {
+    const userId = localStorage.getItem('userId') || 'default';
+    return `quartos_${userId}`;
+  }
+
+  async carregarQuartos() {
+    const storageKey = this.getRoomStorageKey();
+    const storedQuartos = await this.storage.get(storageKey);
+
     if (storedQuartos) {
       this.quartos = storedQuartos.map((quarto: any) => ({
         ...quarto,
-        anomalias: quarto.anomalias.map((anomalia: any) => ({
-          description: anomalia.description || 'Descrição não disponível',
-        })),
+        anomalias: quarto.anomalias
+          ? quarto.anomalias.map((anomalia: any) => ({
+              description: anomalia.description || 'Descrição não disponível',
+            }))
+          : [],
       }));
     } else {
-      await this.storage.set('quartos', this.quartos);
+      await this.storage.set(storageKey, this.quartos);
     }
   }
 
@@ -47,7 +60,7 @@ export class QuartoPage {
     this.quartoSelecionado = event.detail.value;
     console.log('Quarto selecionado:', this.quartoSelecionado);
     await this.carregarAnomaliasDoQuartoSelecionado();
-    await this.storage.set('quartoSelecionado', this.quartoSelecionado);
+    await this.storage.set(this.getRoomStorageKey() + '_selected', this.quartoSelecionado);
   }
 
   async mudarEstadoOcupacao() {
@@ -58,7 +71,7 @@ export class QuartoPage {
       this.quartoSelecionado.estado = proximoEstado;
 
       console.log(`Estado do quarto ${this.quartoSelecionado.id} alterado para: ${proximoEstado}`);
-      await this.storage.set('quartos', this.quartos);
+      await this.storage.set(this.getRoomStorageKey(), this.quartos);
     }
   }
 
@@ -71,12 +84,13 @@ export class QuartoPage {
         this.quartoSelecionado.temperatura = 30;
       }
       console.log('Nova temperatura:', this.quartoSelecionado.temperatura);
-      await this.storage.set('quartos', this.quartos);
+      await this.storage.set(this.getRoomStorageKey(), this.quartos);
     }
   }
 
   async corrigirDadosQuartos() {
-    const storedQuartos = await this.storage.get('quartos');
+    const storageKey = this.getRoomStorageKey();
+    const storedQuartos = await this.storage.get(storageKey);
     if (storedQuartos) {
       const quartosCorrigidos = storedQuartos.map((quarto: any) => ({
         ...quarto,
@@ -84,14 +98,14 @@ export class QuartoPage {
           description: anomalia.description || 'Descrição não disponível',
         })),
       }));
-      await this.storage.set('quartos', quartosCorrigidos);
+      await this.storage.set(storageKey, quartosCorrigidos);
       console.log('Dados corrigidos no Storage:', quartosCorrigidos);
     }
   }
 
   async getAnomaliasPorQuarto(quartoId: number): Promise<any[]> {
     await this.storage.create();
-    const storedQuartos = await this.storage.get('quartos');
+    const storedQuartos = await this.storage.get(this.getRoomStorageKey());
     if (storedQuartos) {
       const quarto = storedQuartos.find((q: any) => q.id === quartoId);
       if (quarto && Array.isArray(quarto.anomalias)) {
@@ -100,12 +114,13 @@ export class QuartoPage {
         }));
       }
     }
-    return []; // Return an empty array if no anomalies are found
+    return [];
   }
 
   async adicionarAnomalia(quartoId: number, descricao: string) {
     await this.storage.create();
-    const storedQuartos = await this.storage.get('quartos');
+    const storageKey = this.getRoomStorageKey();
+    const storedQuartos = await this.storage.get(storageKey);
     if (storedQuartos) {
       const quarto = storedQuartos.find((q: any) => q.id === quartoId);
       if (quarto) {
@@ -113,11 +128,13 @@ export class QuartoPage {
           quarto.anomalias = [];
         }
         quarto.anomalias.push({ description: descricao });
-        await this.storage.set('quartos', storedQuartos);
+        await this.storage.set(storageKey, storedQuartos);
 
-        // Update the local `quartos` array
         const localQuarto = this.quartos.find((q: any) => q.id === quartoId);
         if (localQuarto) {
+          if (!Array.isArray(localQuarto.anomalias)) {
+            localQuarto.anomalias = [];
+          }
           localQuarto.anomalias.push({ description: descricao });
         }
 
