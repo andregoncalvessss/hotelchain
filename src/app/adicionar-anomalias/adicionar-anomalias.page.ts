@@ -55,7 +55,7 @@ export class AdicionarAnomaliasPage implements OnInit {
 
     const normalizedSeverity = this.severidadeSelecionada.toLowerCase();
     const newAnomalia = {
-      description: `${this.descricaoAnomalia} (Severidade: ${this.severidadeSelecionada})`,
+      description: this.descricaoAnomalia, // Apenas a descrição
       severity: normalizedSeverity,
       color: this.getSeverityColor(normalizedSeverity),
       assigned: false,

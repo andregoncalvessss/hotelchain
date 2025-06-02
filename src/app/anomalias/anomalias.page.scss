@@ -177,9 +177,9 @@ h1 {
 }
 
 .anomalia-card.selected {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  border: 2px solid #444444; /* Changed from blue to dark gray */
-  transform: translateY(-2px);
+  border: 2px solid #999999; /* Cinzento mais escuro para o outline */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+  transform: scale(1.02); /* Leve aumento no tamanho */
 }
 
 .quarto-title {
@@ -198,25 +198,23 @@ h1 {
   font-weight: 300; /* Changed from 100 (Thin) to 300 (Light) */
   font-size: 20px;
   margin: 0;
-  margin-top: 0px; /* Reduced from 2px to 0px */
-  padding-bottom: 0px; /* Reduced from 2px to 0px */
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
   flex: 1;
 }
 
-// Color mapping for different anomaly severities
-.grave {
-  color: #F44336; // Red for serious anomalies
+/* Estilo para severidades */
+.baixa {
+  color: #4CAF50; /* Verde para severidade baixa */
 }
 
 .media {
-  color: #FF9800; // Orange for medium anomalies
+  color: #FF9800; /* Amarelo para severidade média */
 }
 
-.baixa {
-  color: #4CAF50; // Green for minor anomalies
+.grave {
+  color: #F44336; /* Vermelho para severidade alta */
 }
 
 .card-content {
@@ -270,14 +268,14 @@ h1 {
 }
 
 .custom-button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Match Dashboard font */
+  font-weight: 300; /* Light font weight */
+  font-size: 18px; /* Keep the current text size */
   --background: #ffffff;
   --color: #000000;
   --border-radius: 20px !important; /* Updated border radius */
   width: 280px; /* Adjusted width */
   height: 60px; /* Adjusted height */
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18px;
-  font-weight: 100;
   box-shadow: none; /* Remove any shadow */
   border: none; /* Remove any border */
   padding: 0;
@@ -702,23 +700,23 @@ ion-fab {
 
 /* Estilo para os botões */
 .custom-button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Match Dashboard font */
+  font-weight: 400; /* Light font weight */
+  font-size: 18px; /* Keep the current text size */
   --background: #ffffff;
   --color: #000000;
   --border-radius: 20px !important;
   width: 280px;
   height: 60px;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18px;
-  font-weight: 100;
   box-shadow: none;
   border: none;
+  margin: 0 auto;
   --background-activated: black;
   --background-focused: black;
   --background-hover: black;
   --color-activated: white;
   --color-focused: white;
   --color-hover: white;
-  margin: 0 auto;
 }
 
 /* Aumentar o espaçamento no content-container para acomodar ambos os botões */
@@ -756,23 +754,23 @@ ion-fab {
 
 /* Estilo para ambos os botões */
 .custom-button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Match Dashboard font */
+  font-weight: 300; /* Light font weight */
+  font-size: 18px; /* Keep the current text size */
   --background: #ffffff;
   --color: #000000;
   --border-radius: 20px !important;
   width: 280px;
   height: 60px;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18px;
-  font-weight: 100;
   box-shadow: none;
   border: none;
+  margin: 0 auto;
   --background-activated: black;
   --background-focused: black;
   --background-hover: black;
   --color-activated: white;
   --color-focused: white;
   --color-hover: white;
-  margin: 0 auto;
 }
 
 /* Ajustar o espaçamento do conteúdo para acomodar os botões */
@@ -803,26 +801,56 @@ ion-fab {
 
 /* Estilo dos botões */
 .custom-button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Match Dashboard font */
+  font-weight: 300; /* Light font weight */
+  font-size: 18px; /* Keep the current text size */
   --background: #ffffff;
   --color: #000000;
   --border-radius: 20px;
   width: 280px;
   height: 60px;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18px;
-  font-weight: 100;
   box-shadow: none;
   border: none;
+  margin: 0 auto;
   --background-activated: black;
   --background-focused: black;
   --background-hover: black;
   --color-activated: white;
   --color-focused: white;
   --color-hover: white;
-  margin: 0 auto;
 }
 
 /* Ajustar o espaçamento do conteúdo para acomodar os botões */
 .content-container {
   padding-bottom: 180px !important;
+}
+
+.delete-button {
+  margin-left: 16px; /* Espaçamento entre os botões */
+  --background: #ff4444; /* Cor de fundo vermelha */
+  --color: #ffffff; /* Texto branco */
+  --border-radius: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.icons-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaçamento entre os ícones */
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #ff4444;
+  transition: color 0.2s ease;
+}
+
+.delete-icon:hover {
+  color: #d32f2f; /* Cor mais escura ao passar o mouse */
+}
+
+.delete-icon ion-icon {
+  font-size: 20px;
 }

@@ -16,22 +16,24 @@
 
     <!-- Anomalias list (when there are anomalies) -->
     <div *ngIf="quartosComAnomalias && quartosComAnomalias.length > 0" class="anomalias-container">
-      <div *ngFor="let quarto of quartosComAnomalias" 
-           class="anomalia-card" 
-           [ngClass]="{'selected': selectedQuarto === quarto}"
-           (click)="selectQuarto(quarto)">
-        <div class="quarto-title">
-          Quarto {{ quarto.id }}
-          <div *ngIf="temFuncionarioAssinalado(quarto)" class="running-man">
-            <ion-icon name="walk-outline"></ion-icon>
+      <div *ngFor="let quarto of quartosComAnomalias">
+        <div *ngFor="let anomalia of quarto.anomalias" 
+             class="anomalia-card" 
+             [class.selected]="selectedAnomalia === anomalia" 
+             (click)="selectAnomalia(anomalia)">
+          <div class="quarto-title">
+            Quarto {{ quarto.id }}
+            <div class="icons-container">
+              <div *ngIf="anomalia.assigned" class="running-man">
+                <ion-icon name="walk-outline"></ion-icon>
+              </div>
+              <div class="delete-icon" (click)="removerAnomalia(quarto.id, anomalia); $event.stopPropagation()">
+                <ion-icon name="trash-outline"></ion-icon>
+              </div>
+            </div>
           </div>
-        </div>
-        <div *ngFor="let anomalia of quarto.anomalias" class="anomalia-container">
-          <div class="anomalia-description" [ngStyle]="{'color': anomalia.color}">
-            {{ anomalia.description }}
-          </div>
-          <div class="delete-icon" (click)="removerAnomalia(quarto.id, anomalia); $event.stopPropagation()">
-            <ion-icon name="trash-outline"></ion-icon>
+          <div class="anomalia-description" [style.color]="anomalia.color">
+            {{ anomalia.description }} (Severidade: {{ anomalia.severity | titlecase }})
           </div>
         </div>
       </div>
@@ -40,8 +42,8 @@
 
   <!-- Botões no rodapé -->
   <div class="button-group">
-    <!-- Botão de assinalar funcionário - visível apenas quando necessário -->
-    <div class="assign-btn-wrapper" *ngIf="selectedQuarto && !temFuncionarioAssinalado(selectedQuarto)">
+    <!-- Botão de assinalar funcionário - visível apenas quando uma anomalia está selecionada -->
+    <div class="assign-btn-wrapper" *ngIf="selectedAnomalia && quartosComAnomalias && quartosComAnomalias.length > 0">
       <ion-button class="custom-button" (click)="marcarFuncionarioParaResolver()">
         Assinalar funcionário para resolver anomalia
       </ion-button>

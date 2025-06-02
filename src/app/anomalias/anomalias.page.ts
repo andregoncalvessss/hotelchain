@@ -66,40 +66,28 @@ export class AnomaliasPage implements OnInit {
         .filter((quarto: any) => Array.isArray(quarto.anomalias) && quarto.anomalias.length > 0)
         .map((quarto: any) => ({
           id: quarto.id,
-          anomalias: quarto.anomalias
-            .map((anomalia: any) => {
-              // Determine the color based on severity
-              let color;
-              const severity = anomalia.severity || 'baixa';
-              
-              if (severity === 'grave') {
-                color = '#F44336'; // Red for serious anomalies
-              } else if (severity === 'media') {
-                color = '#FF9800'; // Orange for medium anomalies
-              } else {
-                color = '#4CAF50'; // Green for minor anomalies
-              }
-              
-              return {
-                description: anomalia.description || 'Descrição não disponível',
-                severity: severity,
-                color: color,
-                assigned: anomalia.assigned || false,
-                timestamp: anomalia.timestamp || Date.now() // Adicionar timestamp se não existir
-              };
-            })
-            // Ordenar anomalias do mais recente para o mais antigo
-            .sort((a: any, b: any) => (b.timestamp || 0) - (a.timestamp || 0))
+          anomalias: quarto.anomalias.map((anomalia: any) => {
+            let color;
+            const severity = anomalia.severity?.toLowerCase() || 'baixa';
+            
+            if (severity === 'grave' || severity === 'alta') {
+              color = '#F44336'; // Red for serious anomalies
+            } else if (severity === 'media' || severity === 'média') {
+              color = '#FF9800'; // Orange for medium anomalies
+            } else {
+              color = '#4CAF50'; // Green for minor anomalies
+            }
+            
+            return {
+              description: anomalia.description // Apenas a descrição
+              , severity: severity
+              , color: color
+              , assigned: anomalia.assigned || false
+              , timestamp: anomalia.timestamp || Date.now()
+            };
+          })
         }));
-      
-      // Ordenar quartos com anomalias mais recentes primeiro
-      this.quartosComAnomalias.sort((a: any, b: any) => {
-        const timestampA = a.anomalias.length > 0 ? a.anomalias[0].timestamp || 0 : 0;
-        const timestampB = b.anomalias.length > 0 ? b.anomalias[0].timestamp || 0 : 0;
-        return timestampB - timestampA;
-      });
-      
-      console.log('Quartos com anomalias ordenados por mais recentes:', this.quartosComAnomalias);
+      console.log('Quartos com anomalias:', this.quartosComAnomalias);
     } else {
       this.quartosComAnomalias = [];
     }
@@ -184,53 +172,60 @@ export class AnomaliasPage implements OnInit {
   async marcarFuncionarioParaResolver() {
     console.log('Método marcarFuncionarioParaResolver chamado');
     
-    if (!this.selectedQuarto) {
-      console.warn('Nenhum quarto selecionado para assinalar funcionário');
+    if (!this.selectedAnomalia) {
+      console.warn('Nenhuma anomalia selecionada para assinalar funcionário');
       return;
     }
 
-    console.log('Quarto para assinalar funcionário:', this.selectedQuarto);
-
     try {
-      const storedQuartos = await this.storage.get('quartos');
-      if (!storedQuartos || !Array.isArray(storedQuartos)) {
-        console.error('Dados de quartos não encontrados ou inválidos');
+      const quarto = this.quartosComAnomalias.find(q => 
+        q.anomalias.includes(this.selectedAnomalia)
+      );
+
+      if (!quarto) {
+        console.error('Quarto não encontrado para a anomalia selecionada');
         return;
       }
 
-      const quartoIndex = storedQuartos.findIndex((q: any) => q.id === this.selectedQuarto.id);
-      console.log('Índice do quarto encontrado:', quartoIndex);
-
-      if (quartoIndex === -1) {
-        console.error('Quarto não encontrado no storage');
-        return;
+      // Marcar a anomalia como assigned
+      const anomaliaIndex = quarto.anomalias.findIndex(a => a === this.selectedAnomalia);
+      if (anomaliaIndex !== -1) {
+        quarto.anomalias[anomaliaIndex].assigned = true;
       }
 
-      // Marcar todas as anomalias como assigned
-      storedQuartos[quartoIndex].anomalias.forEach((anomalia: any) => {
-        anomalia.assigned = true;
-      });
-      
-      // Salvar de volta no storage
-      await this.storage.set('quartos', storedQuartos);
-      console.log('Funcionário assinalado para resolver anomalias no quarto:', this.selectedQuarto.id);
-      
-      // Atualizar UI
-      this.quartosComAnomalias = this.quartosComAnomalias.map(quarto => {
-        if (quarto.id === this.selectedQuarto.id) {
+      // Atualizar no storage
+      const storedQuartos = this.quartos.map(q => {
+        if (q.id === quarto.id) {
           return {
-            ...quarto,
-            anomalias: quarto.anomalias.map(anomalia => ({
-              ...anomalia,
-              assigned: true
-            }))
+            ...q,
+            anomalias: q.anomalias.map(a => 
+              a.description === this.selectedAnomalia.description 
+                ? { ...a, assigned: true } 
+                : a
+            )
           };
         }
-        return quarto;
+        return q;
       });
-      
-      // Recalcular estado do botão
-      this.selectQuarto(this.selectedQuarto);
+      this.storage.set('quartos', storedQuartos);
+
+      console.log('Funcionário assinalado para resolver anomalia:', this.selectedAnomalia);
+
+      // Atualizar UI
+      this.quartosComAnomalias = this.quartosComAnomalias.map(q => {
+        if (q.id === quarto.id) {
+          return {
+            ...q,
+            anomalias: q.anomalias.map(a => 
+              a === this.selectedAnomalia ? { ...a, assigned: true } : a
+            )
+          };
+        }
+        return q;
+      });
+
+      // Deselecionar a anomalia após marcar
+      this.selectedAnomalia = null;
     } catch (error) {
       console.error('Erro ao marcar funcionário:', error);
     }
@@ -255,7 +250,12 @@ export class AnomaliasPage implements OnInit {
   }
 
   selectAnomalia(anomalia: any) {
-    this.selectedAnomalia = anomalia;
+    if (this.selectedAnomalia === anomalia) {
+      this.selectedAnomalia = null; // Deselecionar se já estiver selecionada
+    } else {
+      this.selectedAnomalia = anomalia; // Selecionar a nova anomalia
+    }
+    console.log('Anomalia selecionada:', this.selectedAnomalia);
   }
 
   voltarPagina() {
